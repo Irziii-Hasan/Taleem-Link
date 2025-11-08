@@ -7,6 +7,9 @@ import com.taleemlink.dto.UserDto;
 public interface UserService {
 	UserDto createUser(UserDto userDto);
 	List<UserDto> getAllUsers();
-	UserDto getUserbyId(Long id);
+	UserDto getUserById(Long id);
+	void deletedUser(Long id);
+	UserDto updateUser(Long id, UserDto userDto);
+	
 	
 }

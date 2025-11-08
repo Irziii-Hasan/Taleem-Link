@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto getUserbyId(Long id) {
+	public UserDto getUserById(Long id) {
 		User user =  userRepository.findById(id)
 				.orElseThrow(()-> new RuntimeException("User not found with id: "+ id));
 		UserDto dto = new UserDto();
@@ -63,5 +63,30 @@ public class UserServiceImpl implements UserService {
 		return dto;
 		
 	}
+	
+	@Override
+	public UserDto updateUser(Long id, UserDto userDto) {
+		User user = userRepository.findById(id)
+				.orElseThrow(()-> new RuntimeException("User not found with id = "+id));
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		
+		User updatedUser = userRepository.save(user);
+		
+		UserDto dto = new UserDto();
+	    dto.setId(updatedUser.getId());
+		dto.setName(updatedUser.getName());
+		dto.setEmail(updatedUser.getEmail());
+		
+		return dto;
+		
+	}
+
+	@Override
+	public void deletedUser(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	
 
 }
