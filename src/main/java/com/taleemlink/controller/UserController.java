@@ -27,7 +27,8 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
 		UserDto createdUser = userService.createUser(userDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);	
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+		
 	}
 	
 	@GetMapping
@@ -37,17 +38,31 @@ public class UserController {
 	
 	@GetMapping ("/{id}")
 	public ResponseEntity<UserDto> getUserbyId(@PathVariable Long id) {
-		return ResponseEntity.ok(userService.getUserById(id));
+		try {
+			UserDto user = userService.getUserById(id);
+			return ResponseEntity.ok(user);
+		} catch (RuntimeException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
-		return ResponseEntity.ok(userService.updateUser(id, userDto));
+		try {
+			UserDto updatedUser = userService.updateUser(id, userDto);
+			return ResponseEntity.ok(updatedUser);
+		} catch (RuntimeException ex ) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
-		userService.deletedUser(id);
-		return ResponseEntity.ok("User deleted successfully");
+	public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+		try {
+			userService.deletedUser(id);
+			return ResponseEntity.noContent().build();
+		} catch (RuntimeException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 }
