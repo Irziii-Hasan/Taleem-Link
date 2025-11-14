@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.taleemlink.dto.SignupRequest;
 import com.taleemlink.dto.UserDto;
 import com.taleemlink.model.User;
 import com.taleemlink.repository.UserRepository;
@@ -85,6 +86,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deletedUser(Long id) {
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public UserDto register(SignupRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
